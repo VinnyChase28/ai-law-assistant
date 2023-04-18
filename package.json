@@ -50,6 +50,7 @@
 		"chartjs-adapter-date-fns": "^3.0.0",
 		"date-fns": "^2.29.3",
 		"svelte-chartjs": "^3.1.2",
+		"svelte-file-dropzone": "^2.0.1",
 		"svelte-markdown": "^0.2.3",
 		"svelte-table": "^0.5.5",
 		"theme-change": "^2.3.0"

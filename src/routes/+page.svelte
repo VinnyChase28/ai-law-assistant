@@ -5,7 +5,6 @@
 </script>
 
 <svelte:head>
-	<!-- Place this tag in your head or just before your close body tag. -->
 	<script async defer src="https://buttons.github.io/buttons.js"></script>
 </svelte:head>
 
@@ -17,58 +16,6 @@
 		</div>
 		<div class="flex-none">
 			<a href="/auth" role="button" class="btn btn-sm btn-primary">Sign In</a>
-		</div>
-	</div>
-
-	<div class="hero min-h-fit my-5 bg-base-200">
-		<div class="hero-content text-center">
-			<div class="max-w-xl my-10">
-				<!-- <h1 class="text-4xl font-bold">Welcome to</h1> -->
-				<div class="container flex h-20 my-10 py-2 justify-center border-red-600">
-					<div class="flex w-1/2 border-red-600">
-						<div class="flex w-1/3 border-red-600">
-							<img alt="svelte" src="svelte.png" />
-						</div>
-						<div class="flex my-2 mx-2 border-red-600">
-							<img alt="svelte" src="sveltekit.svg" />
-						</div>
-					</div>
-					<div class="flex w-1/2 ml-10 border-red-600">
-						<img alt="supabase" src="supabase_white.svg" />
-					</div>
-				</div>
-				<h1 class="text-4xl font-bold">Dashboard!</h1>
-
-				<!-- <p class="py-6">
-					Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi
-					exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.
-				</p> -->
-				<!-- <a
-					href="https://github.com/xulioc/sveltekit-supabase-dashboard"
-					role="button"
-					class="btn btn-primary">GitHub</a
-				> -->
-
-				<!-- Place this tag where you want the button to render. -->
-				<!-- <a
-					class="github-button"
-					href="https://github.com/xulioc/sveltekit-supabase-dashboard"
-					data-color-scheme="no-preference: light; light: light; dark: dark;"
-					data-icon="octicon-star"
-					data-size="large"
-					aria-label="Star xulioc/sveltekit-supabase-dashboard on GitHub">Star</a
-				> -->
-
-				<!-- Place this tag where you want the button to render. -->
-				<!-- <a
-					class="github-button"
-					href="https://github.com/xulioc/sveltekit-supabase-dashboard/subscription"
-					data-color-scheme="no-preference: light; light: light; dark: dark;"
-					data-icon="octicon-eye"
-					data-size="large"
-					aria-label="Watch xulioc/sveltekit-supabase-dashboard on GitHub">Watch</a
-				> -->
-			</div>
 		</div>
 	</div>
 
