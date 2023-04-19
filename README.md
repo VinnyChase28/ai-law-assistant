@@ -1,5 +1,3 @@
-# SvelteKit Supabase Dashboard (BETA)
-
-![alt text](/img/dashboard.png)
+# AI Law Assistant Dashboard
 
 ---
