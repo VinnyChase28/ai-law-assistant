@@ -34,11 +34,13 @@ ADMIN
 	
 {/if} -->
 
-<Dropzone on:drop={handleFilesSelect} />
+<Dropzone class="bg-black" on:drop={handleFilesSelect}
+	><button class="btn btn-primary">Upload or Drag Files Here</button></Dropzone
+>
 <ol>
 	{#each files.accepted as item}
 		<li>{item.name}</li>
 	{/each}
 </ol>
 
-<div class="container mx-auto"><button class="btn btn-primary">Upload</button></div>
+<style></style>
