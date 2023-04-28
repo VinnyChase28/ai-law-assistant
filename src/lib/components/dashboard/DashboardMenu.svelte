@@ -19,7 +19,7 @@
 <div class="flex flex-col h-full border-r border-opacity-10 border-base-content z-50">
 	<div class="navbar flex flex-col h-full bg-base-100">
 		<div class="mt-1 mb-8">
-			<a class="px-3 pt-2" href="/">
+			<a class="px-3 pt-2">
 				<!-- <SmileIcon class="" /> -->
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
