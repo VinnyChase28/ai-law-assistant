@@ -5,7 +5,7 @@
 
   function submitMessage() {
     if (message.trim().length > 0) {
-      dispatch("submit", message.trim());
+      dispatch("submit", { message: message.trim() });
       message = "";
     }
   }

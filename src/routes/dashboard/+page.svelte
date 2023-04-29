@@ -1,5 +1,6 @@
 <script lang="ts">
   // import { browser } from '$app/environment';
+
   import { page } from "$app/stores";
   import { toast } from "$lib/components/Toast";
   import { supabaseClient } from "$lib/supabase";
@@ -7,9 +8,12 @@
   import WeatherChart from "$lib/components/dashboard/WeatherChart.svelte";
   import Dropzone from "svelte-file-dropzone/Dropzone.svelte";
   import Card from "$lib/components/dashboard/Card.svelte";
+  import Chat from "$lib/components/dashboard/chat/Chat.svelte";
 
   /** @type {import('./$types').PageData} */
+
   export let data;
+
   let uploadedFiles = data.uploadedFiles;
   let dropzoneRef;
   const supabase = supabaseClient;
@@ -133,6 +137,8 @@ ADMIN
     />
   {/each}
 </div>
+
+<Chat />
 
 <style>
   .dropzone-container .svelte-file-dropzone {
