@@ -11,7 +11,7 @@ export const load: PageLoad = async (event) => {
   const supabase = supabaseClient;
   const userId: string = session.user.id;
 
-  const { data, error } = await supabase.storage
+  const { data: uploadedFiles, error } = await supabase.storage
     .from("contracts")
     .list(`${userId}`, {
       limit: 100,
@@ -37,6 +37,6 @@ export const load: PageLoad = async (event) => {
   return {
     location: location,
     weather: weather,
-    uploadedFiles: data ?? error,
+    uploadedFiles: uploadedFiles ?? error,
   };
 };
