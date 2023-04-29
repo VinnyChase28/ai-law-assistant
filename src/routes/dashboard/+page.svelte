@@ -1,32 +1,71 @@
-<script>
-	// import { browser } from '$app/environment';
+<script lang="ts">
+  // import { browser } from '$app/environment';
+  import { page } from "$app/stores";
+  import WeatherChart from "$lib/components/dashboard/WeatherChart.svelte";
+  import { toast } from "$lib/components/Toast";
+  import Dropzone from "svelte-file-dropzone/Dropzone.svelte";
+  import { supabaseClient } from "$lib/supabase";
+  import { getContext } from "svelte";
 
-	import WeatherChart from '$lib/components/dashboard/WeatherChart.svelte';
-	import { toast } from '$lib/components/Toast';
-	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
+  /** @type {import('./$types').PageData} */
+  export let data;
 
-	/** @type {import('./$types').PageData} */
-	export let data;
+  console.log(data);
 
-	const action = () => {
-		toast.push('TOAST!', { classes: ['alert-success'] });
-	};
+  const supabase = supabaseClient;
+  const userId: string = $page.data.session?.user.id;
 
-	//file drop logic
-	let files = {
-		accepted: [],
-		rejected: []
-	};
+  const createToastSuccess = (message) => {
+    toast.push(`${message}`, { classes: ["alert-success"] });
+  };
 
-	function handleFilesSelect(e) {
-		const { acceptedFiles, fileRejections } = e.detail;
-		files.accepted = [...files.accepted, ...acceptedFiles];
-		files.rejected = [...files.rejected, ...fileRejections];
-	}
+  const createToastError = (message) => {
+    toast.push(`${message}`, { classes: ["alert-error"] });
+  };
+
+  let uploadedFiles = [];
+
+  let files = {
+    accepted: [],
+    rejected: []
+  };
+
+  function handleFilesSelect(e) {
+    const { acceptedFiles, fileRejections } = e.detail;
+    files.accepted = [...files.accepted, ...acceptedFiles];
+    files.rejected = [...files.rejected, ...fileRejections];
+  }
+
+  // Upload file
+  async function uploadFile(file) {
+    const { data, error } = await supabase.storage
+      .from("contracts")
+      .upload(`${userId}/${file.name}`, file, {
+        cacheControl: "3600",
+        upsert: false
+      });
+    if (error) {
+      let errorMessage;
+      if (error.statusCode === "409") {
+        errorMessage = "File already exists.";
+      } else {
+        errorMessage = error.message;
+      }
+      createToastError(errorMessage);
+    } else {
+      createToastSuccess("Upload Successful");
+    }
+  }
+  // Upload all files on button press
+  function uploadAllFiles() {
+    for (const file of files.accepted) {
+      uploadFile(file);
+    }
+  }
 </script>
 
 <svelte:head>
-	<title>Dashboard</title>
+  <title>Dashboard</title>
 </svelte:head>
 
 <!-- {#if $page.data.session.user.app_metadata.role=='admin'}
@@ -34,13 +73,19 @@ ADMIN
 	
 {/if} -->
 
-<Dropzone class="bg-black" on:drop={handleFilesSelect}
-	><button class="btn btn-primary">Upload or Drag Files Here</button></Dropzone
+<Dropzone
+  accept={["application/pdf"]}
+  class="bg-transparent"
+  on:drop={handleFilesSelect}
+  ><button class="btn btn-primary">Upload or Drag Files Here</button></Dropzone
 >
 <ol>
-	{#each files.accepted as item}
-		<li>{item.name}</li>
-	{/each}
+  {#each files.accepted as item}
+    <li>{item.name}</li>
+  {/each}
 </ol>
+
+<button class="btn btn-secondary" on:click={uploadAllFiles}>Upload Files</button
+>
 
 <style></style>
