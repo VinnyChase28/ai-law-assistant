@@ -1,6 +1,5 @@
 <script>
-  export let title, description;
-  export let deleteFile;
+  export let description, deleteFile;
 </script>
 
 <div class="card w-96 bg-base-100 shadow-xl">

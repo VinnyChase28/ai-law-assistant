@@ -105,20 +105,27 @@ ADMIN
 	
 {/if} -->
 
-<Dropzone
-  accept={["application/pdf"]}
-  on:drop={handleFilesSelect}
-  bind:this={dropzoneRef}><h1>Upload or Drag Files Here</h1></Dropzone
->
+<div class="dropzone-container mx-auto max-w-lg">
+  <Dropzone
+    accept={["application/pdf"]}
+    on:drop={handleFilesSelect}
+    bind:this={dropzoneRef}><h1>Upload or Drag Files Here</h1></Dropzone
+  >
+</div>
+
 <ol>
   {#each files.accepted as item}
     <li>{item.name}</li>
   {/each}
 </ol>
 
-<button class="btn btn-secondary" on:click={uploadAllFiles}>Upload Files</button
->
-<div class="card-grid flex flex-wrap justify-left gap-4">
+<div class="button-container flex justify-center">
+  <button class="btn btn-secondary p-4" on:click={uploadAllFiles}
+    >Upload Files</button
+  >
+</div>
+
+<div class="card-grid flex flex-wrap justify-left gap-4 sm:justify-start">
   {#each uploadedFiles as uploadedFile}
     <Card
       description={uploadedFile.name}
@@ -127,4 +134,12 @@ ADMIN
   {/each}
 </div>
 
-<style></style>
+<style>
+  .dropzone-container .svelte-file-dropzone {
+    background-color: rgba(
+      229,
+      231,
+      235
+    ); /* Replace this with your desired color */
+  }
+</style>
