@@ -11,7 +11,7 @@
   /** @type {import('./$types').PageData} */
   export let data;
   let uploadedFiles = data.uploadedFiles;
-
+  let dropzoneRef;
   const supabase = supabaseClient;
   const userId = $page.data.session?.user.id;
 
@@ -26,6 +26,14 @@
     accepted: [],
     rejected: []
   };
+
+  function clearFiles() {
+    files.accepted = [];
+    files.rejected = [];
+    if (dropzoneRef?.fileInput) {
+      dropzoneRef.fileInput.value = "";
+    }
+  }
 
   function handleFilesSelect(e) {
     const { acceptedFiles, fileRejections } = e.detail;
@@ -67,7 +75,10 @@
     }
     for (const file of files.accepted) {
       uploadFile(file);
+      clearFiles();
     }
+
+    input.value = "";
   }
   async function deleteFile(userId, fileName, item) {
     const { data, error } = await supabase.storage
@@ -94,8 +105,10 @@ ADMIN
 	
 {/if} -->
 
-<Dropzone accept={["application/pdf"]} on:drop={handleFilesSelect}
-  ><h1>Upload or Drag Files Here</h1></Dropzone
+<Dropzone
+  accept={["application/pdf"]}
+  on:drop={handleFilesSelect}
+  bind:this={dropzoneRef}><h1>Upload or Drag Files Here</h1></Dropzone
 >
 <ol>
   {#each files.accepted as item}
@@ -105,12 +118,13 @@ ADMIN
 
 <button class="btn btn-secondary" on:click={uploadAllFiles}>Upload Files</button
 >
-{#each uploadedFiles as uploadedFile}
-  <Card
-    title="Document"
-    description={uploadedFile.name}
-    deleteFile={() => deleteFile(userId, uploadedFile.name, uploadedFile)}
-  />
-{/each}
+<div class="card-grid flex flex-wrap justify-left gap-4">
+  {#each uploadedFiles as uploadedFile}
+    <Card
+      description={uploadedFile.name}
+      deleteFile={() => deleteFile(userId, uploadedFile.name, uploadedFile)}
+    />
+  {/each}
+</div>
 
 <style></style>
