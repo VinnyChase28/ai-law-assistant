@@ -18,7 +18,7 @@
       input.value = "";
       messages = [
         ...messages,
-        { username: "User", content: messageContent, isUser: true }
+        { username: "Me", content: messageContent, isUser: true }
       ];
 
       try {
@@ -35,7 +35,11 @@
         if (chatGptResponse) {
           messages = [
             ...messages,
-            { username: "ChatGPT", content: chatGptResponse, isUser: false }
+            {
+              username: "Law Assistant",
+              content: chatGptResponse,
+              isUser: false
+            }
           ];
         } else {
           console.error("No response received from the API.");
