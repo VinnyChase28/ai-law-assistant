@@ -138,8 +138,6 @@ ADMIN
   {/each}
 </div>
 
-<Chat />
-
 <style>
   .dropzone-container .svelte-file-dropzone {
     background-color: rgba(
