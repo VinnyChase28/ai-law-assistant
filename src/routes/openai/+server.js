@@ -4,8 +4,6 @@ import { openaiKey } from "../../lib/server/openai";
 export async function POST({ request }) {
   const { messageContent } = await request.json();
 
-  console.log(openaiKey);
-
   const requestBody = {
     messages: [{ role: "user", content: messageContent }],
     max_tokens: 100,
@@ -28,11 +26,9 @@ export async function POST({ request }) {
       requestOptions
     );
     const data = await response.json();
-    // console.log(data);
 
     if (data.choices && data.choices.length > 0) {
       const chatGptResponse = data.choices[0].message.content;
-      // console.log(chatGptResponse);
       return json({ chatGptResponse }, { status: 200 });
     } else {
       return json(

@@ -30,7 +30,7 @@
           body: JSON.stringify({ messageContent })
         });
         const { chatGptResponse } = await response.json();
-        console.log(chatGptResponse);
+
 
         if (chatGptResponse) {
           messages = [
