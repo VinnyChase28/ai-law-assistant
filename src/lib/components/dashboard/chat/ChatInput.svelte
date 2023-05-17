@@ -4,7 +4,6 @@
   let message = "";
 
   function submitMessage() {
-    console.log(message);
     if (message.trim().length > 0) {
       dispatch("submit", message.trim()); // Pass the message directly
       message = "";
