@@ -6,7 +6,7 @@ export async function POST({ request }) {
 
   const requestBody = {
     messages: [{ role: "user", content: messageContent }],
-    max_tokens: 100,
+    max_tokens: 2000,
     temperature: 0.7,
     model: "gpt-3.5-turbo",
   };
