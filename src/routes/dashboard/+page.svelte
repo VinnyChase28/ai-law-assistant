@@ -9,6 +9,7 @@
   import Dropzone from "svelte-file-dropzone/Dropzone.svelte";
   import Card from "$lib/components/dashboard/Card.svelte";
   import Chat from "$lib/components/dashboard/chat/Chat.svelte";
+  import Pspdfkit from "$lib/components/dashboard/PdfViewer.svelte";
 
   /** @type {import('./$types').PageData} */
 
@@ -108,6 +109,8 @@
 ADMIN
 	
 {/if} -->
+
+<Pspdfkit document="document.pdf" />
 
 <div class="dropzone-container mx-auto max-w-lg">
   <Dropzone
