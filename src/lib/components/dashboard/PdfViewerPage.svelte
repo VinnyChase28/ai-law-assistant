@@ -3,6 +3,7 @@
   import { goto } from "$app/navigation";
   import { supabaseClient } from "$lib/supabase";
   import { toast } from "$lib/components/Toast";
+  import { documentUrl } from "../../../routes/dashboard/+page.svelte";
 
   export let document;
 
@@ -13,10 +14,7 @@
   }
 
   async function savePdf() {
-    // replace with your logic to save the PDF
-    // you may need to use Supabase or another service depending on your app's requirements
-
-    // here's a placeholder example
+   
     const { data, error } = await supabase.from("pdfs").insert([{ document }]);
     if (error) {
       toast.push(`Error saving PDF: ${error.message}`, {
