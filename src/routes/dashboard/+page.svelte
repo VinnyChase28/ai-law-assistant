@@ -10,7 +10,7 @@
   import Card from "$lib/components/dashboard/Card.svelte";
   import Chat from "$lib/components/dashboard/chat/Chat.svelte";
   import Pspdfkit from "$lib/components/dashboard/PdfViewer.svelte";
-
+  import PdfViewerPage from "$lib/components/dashboard/PdfViewerPage.svelte";
   /** @type {import('./$types').PageData} */
 
   export let data;
@@ -29,7 +29,7 @@
 
   let files = {
     accepted: [],
-    rejected: []
+    rejected: [],
   };
 
   function clearFiles() {
@@ -51,7 +51,7 @@
       .from("contracts")
       .upload(`${userId}/${file.name}`, file, {
         cacheControl: "3600",
-        upsert: false
+        upsert: false,
       });
     if (error) {
       let errorMessage;
@@ -67,8 +67,8 @@
         ...uploadedFiles,
         {
           name: file.name,
-          isDeleted: false
-        }
+          isDeleted: false,
+        },
       ];
     }
   }
@@ -85,6 +85,7 @@
 
     input.value = "";
   }
+
   async function deleteFile(userId, fileName, item) {
     const { data, error } = await supabase.storage
       .from("contracts")
@@ -99,6 +100,34 @@
       createToastError("Something went wrong");
     }
   }
+
+  async function saveChanges() {
+    // Export the updated PDF as a Blob
+    const updatedPdf = await instance.exportPDF({ flattenAnnotations: true });
+
+    // Upload the Blob to your server or file storage service
+    const response = await supabase.storage
+      .from("myBucket")
+      .upload("path/to/document.pdf", updatedPdf);
+
+    // Handle the response (e.g., check for errors, update the UI)
+    if (response.error) {
+      console.error(response.error);
+    } else {
+      console.log("File updated successfully");
+    }
+  }
+
+  let showPage = false;
+  let key = 0;
+
+  const togglePage = () => {
+    if (showPage) {
+      // Increment the key to force Svelte to recreate the component
+      key++;
+    }
+    showPage = !showPage;
+  };
 </script>
 
 <svelte:head>
@@ -110,7 +139,13 @@ ADMIN
 	
 {/if} -->
 
-<Pspdfkit document="document.pdf" />
+<button on:click={togglePage}>
+  {showPage ? "Close PDF Viewer" : "Open PDF Viewer"}
+</button>
+
+{#if showPage}
+  <PdfViewerPage {key} document="document.pdf" />
+{/if}
 
 <div class="dropzone-container mx-auto max-w-lg">
   <Dropzone
