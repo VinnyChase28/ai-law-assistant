@@ -1,5 +1,5 @@
 <script>
-  export let description, deleteFile, viewText, viewFile;
+  export let description, deleteFile;
 </script>
 
 <div class="card w-96 bg-base-100 shadow-xl">
@@ -7,8 +7,9 @@
   <div class="card-body">
     <p>{description}</p>
     <div class="card-actions justify-end">
-      <button on:click={viewFile} class="btn btn-primary">{viewText}</button>
-      <button on:click={deleteFile} class="btn btn-primary">Delete</button>
+      <button on:click={() => deleteFile()} class="btn btn-primary"
+        >Delete</button
+      >
     </div>
   </div>
 </div>

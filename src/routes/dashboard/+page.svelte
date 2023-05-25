@@ -1,6 +1,6 @@
 <script lang="ts">
   // import { browser } from '$app/environment';
-  import { writable } from "svelte/store";
+
   import { page } from "$app/stores";
   import { toast } from "$lib/components/Toast";
   import { supabaseClient } from "$lib/supabase";
@@ -14,7 +14,7 @@
   /** @type {import('./$types').PageData} */
 
   export let data;
-  export const documentUrl = writable(""); // create a writable store for the document URL
+
   let uploadedFiles = data.uploadedFiles;
   let dropzoneRef;
   const supabase = supabaseClient;
@@ -101,34 +101,33 @@
     }
   }
 
+  async function saveChanges() {
+    // Export the updated PDF as a Blob
+    const updatedPdf = await instance.exportPDF({ flattenAnnotations: true });
+
+    // Upload the Blob to your server or file storage service
+    const response = await supabase.storage
+      .from("myBucket")
+      .upload("path/to/document.pdf", updatedPdf);
+
+    // Handle the response (e.g., check for errors, update the UI)
+    if (response.error) {
+      console.error(response.error);
+    } else {
+      console.log("File updated successfully");
+    }
+  }
+
   let showPage = false;
   let key = 0;
 
-  async function viewFile(userId, uploadedFileName) {
-    const { data, error } = await supabase.storage
-      .from("contracts")
-      .download(`${userId}/${uploadedFileName}`);
-
-    console.log(data);
-
-    if (error) {
-      console.error("Error downloading file:", error);
-      return;
-    }
-
-    const blob = data;
-    const fileName = `${uploadedFileName}`; // Assuming the file is a PDF
-    const fileUrl = URL.createObjectURL(blob);
-
-    // Set the file URL in the store
-    documentUrl.set(fileUrl);
-
+  const togglePage = () => {
     if (showPage) {
       // Increment the key to force Svelte to recreate the component
       key++;
     }
     showPage = !showPage;
-  }
+  };
 </script>
 
 <svelte:head>
@@ -140,8 +139,12 @@ ADMIN
 	
 {/if} -->
 
+<button on:click={togglePage}>
+  {showPage ? "Close PDF Viewer" : "Open PDF Viewer"}
+</button>
+
 {#if showPage}
-  <PdfViewerPage {key} document={fileUrl} />
+  <PdfViewerPage {key} document="document.pdf" />
 {/if}
 
 <div class="dropzone-container mx-auto max-w-lg">
@@ -168,8 +171,6 @@ ADMIN
   {#each uploadedFiles as uploadedFile}
     <Card
       description={uploadedFile.name}
-      viewText={showPage ? "Close PDF Viewer" : "Open PDF Viewer"}
-      viewFile={() => viewFile(userId, uploadedFile.name)}
       deleteFile={() => deleteFile(userId, uploadedFile.name, uploadedFile)}
     />
   {/each}
